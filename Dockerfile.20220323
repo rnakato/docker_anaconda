@@ -1,0 +1,28 @@
+FROM rnakato/anaconda:20190523
+LABEL maintainer "Ryuichiro Nakato <rnakato@iqb.u-tokyo.ac.jp>"
+
+WORKDIR /home
+
+RUN apt update \
+    && apt install -y --no-install-recommends \
+    gfortran \
+    liblzo2-dev \
+    libbz2-dev \
+    zlib1g-dev \
+    mcl \
+    bowtie \
+    bowtie2 \
+    samtools \
+    zip \
+    unzip \
+    && apt clean
+
+#COPY pastis pastis/rnakatoscript/
+
+COPY tophat-2.1.1.Linux_x86_64.tar.gz tophat-2.1.1.Linux_x86_64.tar.gz
+RUN tar zxvf tophat-2.1.1.Linux_x86_64.tar.gz \
+    && rm tophat-2.1.1.Linux_x86_64.tar.gz
+
+ENV PATH $PATH:/home/tophat-2.1.1.Linux_x86_64
+
+CMD ["/bin/bash"]
